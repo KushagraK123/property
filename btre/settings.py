@@ -146,6 +146,13 @@ MESSAGE_TAGS = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'empyrealgamesindia@gmail.com'
-EMAIL_HOST_PASSWORD = 'Empyreal@123'
+EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
+
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
