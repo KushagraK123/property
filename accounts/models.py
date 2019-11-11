@@ -6,4 +6,4 @@ from datetime import datetime
 class Otp(models.Model):
     email = models.EmailField()
     otp = models.IntegerField()
-    time = models.TimeField(default=datetime.now())
+    time = models.TimeField(blank=True)
