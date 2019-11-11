@@ -6,6 +6,7 @@ from .models import Otp
 from django.http import HttpResponseBadRequest
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from django.utils import timezone
 from random import randint
 
 
@@ -69,10 +70,10 @@ def register(request):
                     obj = Otp.objects.all().filter(email=email)
                     if obj.exists():
                         obj = obj[0]
-                        obj.otp=otp
+                        obj.otp = otp
                         obj.save()
                     else:
-                        obje = Otp(email=email, otp=otp)
+                        obje = Otp(email=email, otp=otp, date=timezone.now())
                         obje.save()
                     send_mail(
                         'Verify your email address',
