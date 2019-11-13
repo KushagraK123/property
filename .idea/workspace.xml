@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="03fa903f-8506-4674-b208-43d9b5994414" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/accounts/migrations/0005_merge_20191113_1308.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/listings/migrations/0007_merge_20191113_1308.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/realtors/migrations/0007_merge_20191113_1308.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounts/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounts/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

@@ -67,13 +67,13 @@ def register(request):
                         'first_name': first_name,
                         'last_name': last_name,
                     }
-                    obj = Otp.objects.all().filter(email=email)
+                    obj = Otp.objects.all().filter(email=email )
                     if obj.exists():
                         obj = obj[0]
                         obj.otp = otp
                         obj.save()
                     else:
-                        obje = Otp(email=email, otp=otp, date=timezone.now())
+                        obje = Otp(email=email, otp=otp, time=timezone.now())
                         obje.save()
                     send_mail(
                         'Verify your email address',
