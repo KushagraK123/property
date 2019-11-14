@@ -4,7 +4,10 @@ from realtors.models import Realtor
 
 
 def index(request):
-    listings = Listing.objects.order_by('-list_date').filter(isPublished=True)[:3]
+
+    listings = Listing.objects.order_by('-list_date').filter(isPublished=True, isSold=False)
+    if len(listings) > 3:
+        listings = listings[:3]
     context = {
         'listings': listings,
     }

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
@@ -12,10 +13,19 @@ from random import randint
 
 def login(request):
     if request.method == 'POST':
+        print(request.POST)
         username = request.POST['username']
         password = request.POST['password']
-
-        user = auth.authenticate(username=username, password=password)
+        user_type = request.POST['user_type']
+        user = None
+        if user_type == 'realtor':
+            user = auth.authenticate(username=username, password=password)
+            if user.groups.filter(name='realtor').exists():
+                pass
+            else:
+                user = None
+        else:
+            user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
             messages.success(request, 'You are now logged in!')
@@ -23,8 +33,14 @@ def login(request):
         else:
             messages.error(request, 'Invalid Credentials!')
             return redirect('login')
+    elif request.method == 'GET':
+        user_type = request.GET.get('user_type', 'user')
+        context = {
+            'user_type': user_type
+        }
+        return render(request, 'accounts/login.html', context)
     else:
-        return render(request, 'accounts/login.html')
+        return
 
 
 def dashboard(request):
@@ -46,7 +62,7 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-
+        user_type = request.POST['user_type']
         if password == password2:
             if User.objects.all().filter(username=username).exists():
                 messages.error(request, 'User Name is Taken!')
@@ -66,6 +82,7 @@ def register(request):
                         'email': email,
                         'first_name': first_name,
                         'last_name': last_name,
+                        'user_type': user_type,
                     }
                     obj = Otp.objects.all().filter(email=email )
                     if obj.exists():
@@ -92,7 +109,11 @@ def register(request):
             return redirect('register')
 
     else:
-        return render(request, 'accounts/register.html')
+        user_type = request.GET.get('user_type', 'user')
+        context = {
+            'user_type': user_type
+        }
+        return render(request, 'accounts/register.html', context)
 
 
 def change_password(request):
@@ -119,6 +140,7 @@ def verify_otp(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
+        user_type = request.POST['user_type']
         obj = Otp.objects.all().filter(email=email)
         obj = obj[0]
 
@@ -128,6 +150,10 @@ def verify_otp(request):
         if str(otp) == str(otp2):
             user = User.objects.create_user(username=username, password=password, email=email,
                                             first_name=first_name, last_name=last_name)
+            if user_type == 'realtor':
+                group = Group.objects.get(name='realtor')
+                user.groups.add(group)
+                user.is_staff = True
             user.save()
             messages.success(request, 'You have been registered successfully!')
             return redirect('login')
@@ -151,3 +177,5 @@ def logout(request):
         return redirect('index')
     else:
         return redirect('index')
+
+

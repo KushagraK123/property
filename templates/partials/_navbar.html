@@ -74,13 +74,49 @@
         {% else %}
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mr-3">
-            <a class="nav-link" href="{% url 'register'%}">
-              <i class="fas fa-user-plus"></i> Register</a>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" style="color:rgba(255, 255, 255, 0.5);background-color:transparent; border: none;cursor:pointer;overflow: hidden " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                REGISTER
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <form action="{% url 'register' %}" method="get" style="margin:0px; ">
+
+                    <input type="text" name="user_type" value="user" hidden>
+                    <input class="dropdown-item" type="submit"  value="User" style="background-color:transparent;  border: none;cursor:pointer;overflow: ">
+
+                  </form>
+
+                    <form action="{% url 'register' %}" method="get" style="margin:0px; ">
+                    <input type="text" name="user_type" value="realtor" hidden>
+                    <input class="dropdown-item" type="submit"  value="Realtor" style="background-color:transparent;  border: none;cursor:pointer;overflow: ">
+
+                  </form>
+                </div>
+            </div>
+
           </li>
-          <li class="nav-item mr-3">
-            <a class="nav-link" href="{% url 'login' %}">
-              <i class="fas fa-sign-in-alt"></i>
-              Login</a>
+
+          <li>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" style="color:rgba(255, 255, 255, 0.5);background-color:transparent; border: none;cursor:pointer;overflow: hidden " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                LOGIN
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <form action="{% url 'login' %}" method="get" style="margin:0px; ">
+
+                    <input type="text" name="user_type" value="user" hidden>
+                    <input class="dropdown-item" type="submit"  value="User" style="background-color:transparent;  border: none;cursor:pointer;overflow: ">
+
+                  </form>
+
+                    <form action="{% url 'login' %}" method="get" style="margin:0px; ">
+
+                    <input type="text" name="user_type" value="realtor" hidden>
+                    <input class="dropdown-item" type="submit"  value="Realtor" style="background-color:transparent;  border: none;cursor:pointer;overflow: ">
+
+                  </form>
+                </div>
+            </div>
           </li>
 
         </ul>

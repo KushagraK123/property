@@ -40,3 +40,31 @@ def contact(request):
     else:
         return
 
+
+def message(request):
+    if request.method == 'POST':
+        listing_id = request.POST['listing_id']
+        listing = request.POST['listing']
+        name = request.POST['name']
+        email = request.POST['email']
+        message_ = request.POST['message']
+        user_id = request.POST['user_id']
+        contact_date = datetime.now()
+        realtor_email = request.POST['realtor_email']
+
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            messages.success(request, 'Your message has been sent!')
+            send_mail(
+                'New Message',
+                'You have received a new message on previous inquiry on ' + listing +
+                'by user ' + name + ' having user id ' + str(user_id) + ' the message is ' + message_,
+                'empyrealgamesindia@gmail.com',
+                [realtor_email, 'empyrealgamesindia@gmail.com'],
+                fail_silently=False
+            )
+        return redirect('/accounts/dashboard' + listing_id)
+
+    else:
+        return
+

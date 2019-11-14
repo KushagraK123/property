@@ -24,7 +24,10 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Property</th>
-                <th></th>
+                <th scope="col">Seen By Realtor</th>
+                <th scope="col">Realtor Message</th>
+                <th scope="col">Action</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -32,6 +35,18 @@
                 <tr>
                 <td>{{contact.id}}</td>
                 <td>{{contact.listing}}</td>
+                <td>
+                  {% if contact.seen %}
+                    Yes
+                  {% else %}
+                    No
+                  {% endif %}
+                <td>
+                  {{contact.message}}
+                </td>
+                <td>
+                  <button class="btn btn-light" data-toggle="modal" data-target="#messageModal">Send Message</button>
+                </td>
                 <td>
                   <a class="btn btn-light" href="{% url 'listing' contact.listing_id %}">View Listing</a>
                 </td>
@@ -46,5 +61,44 @@
       </div>
     </div>
   </section>
+<!--Message Modal -->
+  <div class="modal fade" id="messageModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="inquiryModalLabel">Make An Inquiry</h5>
+          <button type="button" class="close" data-dismiss="modal">
+            <span>&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="{% url 'message' %}" method="POST">
+            {% csrf_token %}
+            {% if user.is_authenticated %}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            {% else %}
+            {% endif %}
+            <input type="hidden" name="realtor_email" value="{{ realtor.email }}">
+            <input type="hidden" name="listing_id" value="{{ listing.id }}">
+            <div class="form-group">
+              <input type="hidden" name="listing" class="form-control" value="{{listing.title}}" >
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="name" class="form-control" value="{{user.first_name}} {{user.last_name}}"  >
+            </div>
+            <div class="form-group">
+              <input type="hidden" name="email" class="form-control" value="{{user.email}}" >
+            </div>
+            <div class="form-group">
+              <label for="message" class="col-form-label">Message:</label>
+              <textarea name="message" class="form-control" required></textarea>
+            </div>
+            <hr>
+            <input type="submit" value="Send" class="btn btn-block btn-secondary">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 {% endblock %}

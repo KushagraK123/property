@@ -7,7 +7,7 @@ from django.contrib import auth, messages
 
 
 def index(request):
-    listings = Listing.objects.order_by('-list_date').filter(isPublished=True)
+    listings = Listing.objects.order_by('-list_date').filter(isPublished=True, isSold=False)
     paginator = Paginator(listings, 3)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
@@ -19,7 +19,7 @@ def index(request):
 
 def listing(request, listing_id):
     if request.user.is_authenticated:
-        lis = get_object_or_404(Listing, pk=listing_id)
+        lis = get_object_or_404(Listing, pk=listing_id, isSold=False)
         realtor = lis.realtor
         context = {
             'listing': lis,
@@ -32,7 +32,7 @@ def listing(request, listing_id):
 
 
 def search(request):
-    listings = Listing.objects.order_by('-list_date').filter(isPublished=True)
+    listings = Listing.objects.order_by('-list_date').filter(isPublished=True, isSold=False)
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:

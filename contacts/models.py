@@ -9,8 +9,12 @@ class Contact(models.Model):
     phone = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     message = models.TextField(blank=True)
+    seen = models.BooleanField(default=False)
+    realtor_reply = models.TextField(blank=True)
     contact_date = models.DateTimeField(default=datetime.now, blank=True)
     user_id = models.IntegerField()
 
     def __str__(self):
         return self.name
+
+
